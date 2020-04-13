@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -102,5 +103,32 @@ public class StudentController {
         }
         return "student is not exists!";
 
+    }
+
+    // 更新一个学生
+    @ApiOperation(value = "更新学生信息", notes = "更新学生信息", httpMethod = "POST")
+    @ApiImplicitParam(name = "student", dataTypeClass = Student.class, required = true)
+    @ResponseBody
+    @RequestMapping("updateStudentById")
+    public String updateStudentById(Student student) throws JsonProcessingException {
+        if (student.getStId() <= 0) {
+            return "student info is error!";
+        }
+        if (null != student) {
+            if (ids.contains(student.getStId())) {
+                for (int i = 0; i < ids.size(); i++) {
+                    if (student.getStId() == students.get(i).getStId()) {
+                        students.get(i).setStName(student.getStName());
+                        students.get(i).setStGender(student.getStGender());
+                        students.get(i).setStGrade(student.getStGrade());
+                        students.get(i).setStClass(student.getStClass());
+                        return JSONUtils.getJsonFromObject(students);
+                    }
+                }
+            } else {
+                return "没有这个学生的信息！";
+            }
+        }
+        return "student info is error!";
     }
 }

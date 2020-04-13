@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>更新学生</title>
+        <script src="./js/jquery-3.5.0.js"/>
+        <style type="text/css">
+            #students {
+                border-style: solid;
+                color: chocolate;
+                padding-left: 5px;
+            }
+
+            th {
+                border-style: solid;
+            }
+        </style>
+        <script>
+            // 页面加载后，使用ajax， 装载入数据
+            window.onload = function () {
+                $().get({
+                    url: "$/allstudent",
+                    data: {},
+                    success: function (data) {
+                        console.log(data);
+                        // 信息核对成功
+                        if (null != data) {
+                            var myHtmlContent = "";
+                            for (var i = 0; i < data.length; i++) {
+                                myHtmlContent += "<tr>" +
+                                    "<td>" + data[i].stId + "</td>" +
+                                    "<td>" + data[i].stName + "</td>" +
+                                    "<td>" + data[i].stGender + "</td>" +
+                                    "<td>" + data[i].stGrade + "</td>" +
+                                    "<td>" + data[i].stClass + "</td>" +
+                                    "<td>" + "删除" + "</td>" +
+                                    "</tr>";
+                            }
+                        }
+                        $('#students').html(myHtmlContent)
+                    }
+                })
+            }
+
+            function f() {
+                window.alert('111');
+            }
+        </script>
+    </head>
+    <body>
+        <!-- test -->
+        <p>Hello world!</p>
+        <input type="button" value="Hello test!" onclick="f()">
+        <script type="text/javascript">
+            function updateStudent() {
+                $().ajax({
+                    url: "$/updateStudentById",
+                    data: {},
+                    success: function (data) {
+                        console.log(data);
+                        // 信息核对成功
+                        if (data.toString() != '没有这个学生的信息' &&
+                            data.toString() != 'student info is error!') {
+                            var myHtmlContent = "";
+                            for (var i = 0; i < data.length; i++) {
+                                myHtmlContent += "<tr>" +
+                                    "<td>" + data[i].stId + "</td>" +
+                                    "<td>" + data[i].stName + "</td>" +
+                                    "<td>" + data[i].stGender + "</td>" +
+                                    "<td>" + data[i].stGrade + "</td>" +
+                                    "<td>" + data[i].stClass + "</td>" +
+                                    "<td>" + "删除" + "</td>" +
+                                    "</tr>";
+                            }
+                        }
+                        $('#students').html(myHtmlContent)
+                    }
+                })
+            }
+
+        </script>
+        <table id="allStudent" style="margin: 20px; border: deepskyblue; border-style: dashed">
+            <th>学生id</th>
+            <th>学生姓名</th>
+            <th>学生性别</th>
+            <th>学生年级</th>
+            <th>学生班级</th>
+            <th id="updateOne">update</th>
+            <tbody id="students">
+
+            </tbody>
+        </table>
+
+    </body>
+</html>
