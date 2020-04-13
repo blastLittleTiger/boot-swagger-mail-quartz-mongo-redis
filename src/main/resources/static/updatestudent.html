@@ -3,7 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>更新学生</title>
-        <script src="./js/jquery-3.5.0.js"/>
+        <!-- 这样虽然可以获取到js, 但是没有办法使用-->
+        <!--<script src="/js/jquery-3.5.0.js"/>-->
+        <!-- 本地文件，也无法访问-->
+        <!--<script src="file:///D://jquery-3.5.0.js"/>-->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <style type="text/css">
             #students {
                 border-style: solid;
@@ -15,10 +19,16 @@
                 border-style: solid;
             }
         </style>
-        <script>
+        <script type="text/javascript">
+            function f() {
+                window.alert('111');
+                console.log("111");
+            }
+
             // 页面加载后，使用ajax， 装载入数据
-            window.onload = function () {
-                $().get({
+            // window.onload = function () {
+            function ss() {
+                $().ajax({
                     url: "$/allstudent",
                     data: {},
                     success: function (data) {
@@ -41,19 +51,15 @@
                     }
                 })
             }
-
-            function f() {
-                window.alert('111');
-            }
         </script>
     </head>
     <body>
         <!-- test -->
         <p>Hello world!</p>
-        <input type="button" value="Hello test!" onclick="f()">
+        <input type="button" value="Hello test!" onclick="f()"/>
         <script type="text/javascript">
             function updateStudent() {
-                $().ajax({
+                $().post({
                     url: "$/updateStudentById",
                     data: {},
                     success: function (data) {
@@ -79,17 +85,21 @@
             }
 
         </script>
-        <table id="allStudent" style="margin: 20px; border: deepskyblue; border-style: dashed">
-            <th>学生id</th>
-            <th>学生姓名</th>
-            <th>学生性别</th>
-            <th>学生年级</th>
-            <th>学生班级</th>
-            <th id="updateOne">update</th>
-            <tbody id="students">
+        <div>
+            <table id="allStudent" style="margin: 20px; border: deepskyblue; border-style: dashed">
+                <th>学生id</th>
+                <th>学生姓名</th>
+                <th>学生性别</th>
+                <th>学生年级</th>
+                <th>学生班级</th>
+                <th id="updateOne">update</th>
+                <tbody id="students">
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+            <input type="submit" value="获取学生信息" onclick="ss()">
+        </div>
+
 
     </body>
 </html>
