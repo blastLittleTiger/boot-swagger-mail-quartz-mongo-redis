@@ -28,8 +28,8 @@
             // 页面加载后，使用ajax， 装载入数据
             // window.onload = function () {
             function ss() {
-                $().ajax({
-                    url: "$/allstudent",
+                $.ajax({
+                    url: "/allstudent",
                     data: {},
                     success: function (data) {
                         console.log(data);
@@ -59,8 +59,8 @@
         <input type="button" value="Hello test!" onclick="f()"/>
         <script type="text/javascript">
             function updateStudent() {
-                $().post({
-                    url: "$/updateStudentById",
+                $.post({
+                    url: "/updateStudentById",
                     data: {},
                     success: function (data) {
                         console.log(data);
