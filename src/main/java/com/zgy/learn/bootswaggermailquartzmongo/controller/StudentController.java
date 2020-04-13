@@ -1,5 +1,7 @@
 package com.zgy.learn.bootswaggermailquartzmongo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,18 +37,18 @@ public class StudentController {
     @ApiOperation("查询所有的学生")
     @ResponseBody
     @GetMapping("allstudent")
-    public List<Student> getAllStudents() {
-        return students;
+    public String getAllStudents() throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(students);
 
     }
 
     @ApiOperation("按照id查询学生的信息")
     @ResponseBody
     @GetMapping("getstudentbyid")
-    public Student getStudentById(@RequestParam("id") Integer id) {
+    public String getStudentById(@RequestParam("id") Integer id) throws JsonProcessingException {
         Student st = new Student();
         if (null == id || id < 0) {
-            throw new RuntimeException("param is mistook!");
+            return "id is not correct!";
         } else if (ids.contains(id)) {
             for (int i = 0; i < ids.size(); i++) {
                 if (students.get(i).getId() == id) {
@@ -54,8 +56,8 @@ public class StudentController {
                 }
             }
         } else {
-            st = null;
+            return "there is no student!";
         }
-        return st;
+        return new ObjectMapper().writeValueAsString(st);
     }
 }
