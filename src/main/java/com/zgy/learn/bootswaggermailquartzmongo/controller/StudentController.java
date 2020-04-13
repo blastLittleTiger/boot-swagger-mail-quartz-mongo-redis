@@ -1,7 +1,6 @@
 package com.zgy.learn.bootswaggermailquartzmongo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
@@ -9,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -63,5 +63,21 @@ public class StudentController {
             return "there isn't have a student use this id!";
         }
         return JSONUtils.getJsonFromObject(st);
+    }
+
+    // 添加一个新的学生
+    @ApiOperation(value = "添加一个学生", notes = "添加一个学生", httpMethod = "POST")
+    @ApiImplicitParam(name = "student", dataTypeClass = Student.class, required = true)
+    @PostMapping("addstudent")
+    @ResponseBody
+    public String addStudent(Student student) {
+        if (null == student) {
+            return "student info is not correct!";
+        }
+        if (ids.contains(student.getId())) {
+            return "student id is already exist!";
+        }
+        students.add(student);
+        return "add the student okay!";
     }
 }
