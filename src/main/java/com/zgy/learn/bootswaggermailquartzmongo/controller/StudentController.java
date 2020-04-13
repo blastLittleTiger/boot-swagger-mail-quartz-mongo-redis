@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "学生管理的接口")
+@Api(value = "学生Controller", tags = "学生管理的接口")
 @Controller
 public class StudentController {
     private static List<Student> students = new ArrayList<>();
@@ -35,7 +36,8 @@ public class StudentController {
         ids.add(6);
     }
 
-    @ApiOperation("查询所有的学生")
+    @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
+    @ApiImplicitParam(name = "")
     @ResponseBody
     @GetMapping("allstudent")
     public String getAllStudents() throws JsonProcessingException {
@@ -43,7 +45,8 @@ public class StudentController {
 
     }
 
-    @ApiOperation("按照id查询学生的信息")
+    @ApiOperation(value = "按照id查询学生的信息", notes = "按照id查询学生", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", dataType = "Integer", required = true)
     @ResponseBody
     @GetMapping("getstudentbyid")
     public String getStudentById(@RequestParam("id") Integer id) throws JsonProcessingException {
