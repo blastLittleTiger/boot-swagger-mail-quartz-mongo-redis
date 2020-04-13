@@ -45,17 +45,17 @@ public class StudentController {
 
     }
 
-    @ApiOperation(value = "按照id查询学生的信息", notes = "按照id查询学生", httpMethod = "GET")
-    @ApiImplicitParam(name = "id", dataType = "Integer", required = true)
+    @ApiOperation(value = "按照stId查询学生的信息", notes = "按照id查询学生", httpMethod = "GET")
+    @ApiImplicitParam(name = "stId", dataType = "Integer", required = true)
     @ResponseBody
     @GetMapping("getstudentbyid")
-    public String getStudentById(@RequestParam("id") Integer id) throws JsonProcessingException {
+    public String getStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
         Student st = new Student();
-        if (null == id || id < 0) {
+        if (null == stId || stId < 0) {
             return "id is not correct!";
-        } else if (ids.contains(id)) {
+        } else if (ids.contains(stId)) {
             for (int i = 0; i < ids.size(); i++) {
-                if (students.get(i).getStId() == id) {
+                if (students.get(i).getStId() == stId) {
                     st = students.get(i);
                 }
             }
@@ -79,5 +79,28 @@ public class StudentController {
         }
         students.add(student);
         return "add the student okay!";
+    }
+
+    // 删除一个学生
+    @ApiOperation(value = "删除一个学生", notes = "删除一个学生", httpMethod = "POST")
+    @ApiImplicitParam(name = "stId", dataTypeClass = Integer.class, required = true)
+    @PostMapping("deletestudentbyid")
+    @ResponseBody
+    public String deleteStudentById(@RequestParam("stId") Integer stId) {
+        if (null == stId || stId <= 0) {
+            return "id is not correct!";
+        }
+        if (ids.contains(stId)) {
+            // 集合从0开始计算，但是我们的id从1开始计算，获取的时候，遍历集合，学生的id和集合的id无关了
+            for (int i = 0; i < ids.size(); i++) {
+                if (students.get(i).getStId() == stId) {
+                    students.remove(students.get(i));
+                    // 找到一个就跳出来
+                    return "delete okay!";
+                }
+            }
+        }
+        return "student is not exists!";
+
     }
 }
