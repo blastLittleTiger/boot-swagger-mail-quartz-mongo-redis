@@ -17,7 +17,7 @@ public class Student {
     private String name;
     @ApiModelProperty(value = "学生性别", notes = "学生性别")
     private String gender;
-    @ApiModelProperty(value = "学生姓名", notes = "学生姓名")
+    @ApiModelProperty(value = "学生年级", notes = "学生年级")
     private String grade;
     @ApiModelProperty(value = "学生班级", notes = "学生班级")
     private String classes;
