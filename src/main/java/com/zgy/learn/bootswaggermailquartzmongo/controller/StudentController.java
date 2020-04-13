@@ -3,6 +3,7 @@ package com.zgy.learn.bootswaggermailquartzmongo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
+import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class StudentController {
     @ResponseBody
     @GetMapping("allstudent")
     public String getAllStudents() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(students);
+        return JSONUtils.getJsonFromObject(students);
 
     }
 
@@ -56,8 +57,8 @@ public class StudentController {
                 }
             }
         } else {
-            return "there is no student!";
+            return "there isn't have a student use this id!";
         }
-        return new ObjectMapper().writeValueAsString(st);
+        return JSONUtils.getJsonFromObject(st);
     }
 }
