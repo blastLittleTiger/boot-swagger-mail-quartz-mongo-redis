@@ -11,12 +11,20 @@
         <style type="text/css">
             #students {
                 border-style: solid;
+                border-color: deepskyblue;
                 color: chocolate;
                 padding-left: 5px;
+                border-width: 1px
             }
 
             th {
                 border-style: solid;
+                border-width: 1px
+            }
+
+            td {
+                border-style: solid;
+                border-width: 1px
             }
         </style>
         <script type="text/javascript">
@@ -29,20 +37,21 @@
             // window.onload = function () {
             function ss() {
                 $.ajax({
-                    url: "/allstudent",
-                    data: {},
-                    success: function (data) {
+                    url:"/allstudent",
+                    data:{},
+                    success: function (data, status) {
                         console.log(data);
+                        console.log(status);
+                        var myHtmlContent = "";
                         // 信息核对成功
                         if (null != data) {
-                            var myHtmlContent = "";
                             for (var i = 0; i < data.length; i++) {
                                 myHtmlContent += "<tr>" +
-                                    "<td>" + data[i].stId + "</td>" +
-                                    "<td>" + data[i].stName + "</td>" +
-                                    "<td>" + data[i].stGender + "</td>" +
-                                    "<td>" + data[i].stGrade + "</td>" +
-                                    "<td>" + data[i].stClass + "</td>" +
+                                    "<td>" + data[0].stId + "</td>" +
+                                    "<td>" + data[0].stName + "</td>" +
+                                    "<td>" + data[0].stGender + "</td>" +
+                                    "<td>" + data[0].stGrade + "</td>" +
+                                    "<td>" + data[0].stClass + "</td>" +
                                     "<td>" + "删除" + "</td>" +
                                     "</tr>";
                             }
@@ -51,6 +60,8 @@
                     }
                 })
             }
+
+            window.onload = ss();
         </script>
     </head>
     <body>
@@ -69,6 +80,9 @@
                             data.toString() != 'student info is error!') {
                             var myHtmlContent = "";
                             for (var i = 0; i < data.length; i++) {
+                                console.log(data[i].stId);
+                                console.log(data[i].stGender);
+
                                 myHtmlContent += "<tr>" +
                                     "<td>" + data[i].stId + "</td>" +
                                     "<td>" + data[i].stName + "</td>" +
@@ -86,7 +100,8 @@
 
         </script>
         <div>
-            <table id="allStudent" style="margin: 20px; border: deepskyblue; border-style: dashed">
+            <table id="allStudent" style="margin: 20px; border: deepskyblue;
+            border-width: thick; border-style: wave; border-width: 1px">
                 <th>学生id</th>
                 <th>学生姓名</th>
                 <th>学生性别</th>
