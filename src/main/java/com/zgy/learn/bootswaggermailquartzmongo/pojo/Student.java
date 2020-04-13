@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Student {
     @ApiModelProperty(value = "学生id", notes = "学生id")
-    private int id;
+    private int stId;
     @ApiModelProperty(value = "学生姓名", notes = "学生姓名")
-    private String name;
+    private String stName;
     @ApiModelProperty(value = "学生性别", notes = "学生性别")
-    private String gender;
+    private String stGender;
     @ApiModelProperty(value = "学生年级", notes = "学生年级")
-    private String grade;
+    private String stGrade;
     @ApiModelProperty(value = "学生班级", notes = "学生班级")
-    private String classes;
+    private String stClass;
 }

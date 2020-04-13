@@ -55,7 +55,7 @@ public class StudentController {
             return "id is not correct!";
         } else if (ids.contains(id)) {
             for (int i = 0; i < ids.size(); i++) {
-                if (students.get(i).getId() == id) {
+                if (students.get(i).getStId() == id) {
                     st = students.get(i);
                 }
             }
@@ -74,7 +74,7 @@ public class StudentController {
         if (null == student) {
             return "student info is not correct!";
         }
-        if (ids.contains(student.getId())) {
+        if (ids.contains(student.getStId())) {
             return "student id is already exist!";
         }
         students.add(student);
