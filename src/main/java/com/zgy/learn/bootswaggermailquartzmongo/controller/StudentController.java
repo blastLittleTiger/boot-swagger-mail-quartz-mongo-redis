@@ -87,7 +87,7 @@ public class StudentController {
     @ApiImplicitParam(name = "stId", dataTypeClass = Integer.class, required = true)
     @PostMapping("deletestudentbyid")
     @ResponseBody
-    public String deleteStudentById(@RequestParam("stId") Integer stId) {
+    public String deleteStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
         if (null == stId || stId <= 0) {
             return "id is not correct!";
         }
@@ -97,7 +97,7 @@ public class StudentController {
                 if (students.get(i).getStId() == stId) {
                     students.remove(students.get(i));
                     // 找到一个就跳出来
-                    return "delete okay!";
+                    return JSONUtils.getJsonFromObject(students);
                 }
             }
         }
