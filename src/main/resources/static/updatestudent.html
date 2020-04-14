@@ -32,14 +32,42 @@
                 window.alert('111');
                 console.log("111");
             }
+            function deleteOne() {
+                $.ajax({
+                        url: "/deletestudentbyid",
+                        type: "POST", //请求的方法
+                        data:{"stId":1},
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            console.log(status);
+                            var myHtmlContent = "";
+                            // 信息核对成功
+                            if (null != data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    myHtmlContent += "<tr>" +
+                                        "<td>" + data[i].stId + "</td>" +
+                                        "<td>" + data[i].stName + "</td>" +
+                                        "<td>" + data[i].stGender + "</td>" +
+                                        "<td>" + data[i].stGrade + "</td>" +
+                                        "<td>" + data[i].stClass + "</td>" +
+                                        "<td>" + "<input id ='www' type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
+                                        "</tr>";
+                                }
+                            }
+                            $('#students').html(myHtmlContent)
+                        }
+                })
+
+            }
 
             // 页面加载后，使用ajax， 装载入数据
             // window.onload = function () {
             function ss() {
                 $.ajax({
-                    url:"/allstudent",
-                    data:{},
-                    dataType:"json", // 处理ajax之中有数据，但是给页面赋值的时候为undefined的问题
+                    url: "/allstudent",
+                    data: {},
+                    dataType: "json", // 处理ajax之中有数据，但是给页面赋值的时候为undefined的问题
                     success: function (data, status) {
                         console.log(data);
                         console.log(status);
@@ -53,7 +81,7 @@
                                     "<td>" + data[i].stGender + "</td>" +
                                     "<td>" + data[i].stGrade + "</td>" +
                                     "<td>" + data[i].stClass + "</td>" +
-                                    "<td>" + "删除" + "</td>" +
+                                    "<td>" + "<input id ='www' type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
                                     "</tr>";
                             }
                         }
