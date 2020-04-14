@@ -39,6 +39,7 @@
                 $.ajax({
                     url:"/allstudent",
                     data:{},
+                    dataType:"json", // 处理ajax之中有数据，但是给页面赋值的时候为undefined的问题
                     success: function (data, status) {
                         console.log(data);
                         console.log(status);
@@ -47,11 +48,11 @@
                         if (null != data) {
                             for (var i = 0; i < data.length; i++) {
                                 myHtmlContent += "<tr>" +
-                                    "<td>" + data[0].stId + "</td>" +
-                                    "<td>" + data[0].stName + "</td>" +
-                                    "<td>" + data[0].stGender + "</td>" +
-                                    "<td>" + data[0].stGrade + "</td>" +
-                                    "<td>" + data[0].stClass + "</td>" +
+                                    "<td>" + data[i].stId + "</td>" +
+                                    "<td>" + data[i].stName + "</td>" +
+                                    "<td>" + data[i].stGender + "</td>" +
+                                    "<td>" + data[i].stGrade + "</td>" +
+                                    "<td>" + data[i].stClass + "</td>" +
                                     "<td>" + "删除" + "</td>" +
                                     "</tr>";
                             }
