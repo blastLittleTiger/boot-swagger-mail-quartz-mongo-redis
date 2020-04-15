@@ -141,11 +141,12 @@
         <!--  在标签和id那块有问题，暂时就使用单纯的删除几个就行了-->
         <!-- 这个是通过后台的方式去删除，然后完成删除这个动作，也能达到效果的，这是使用表单提交的方式-->
         <form action="/updateStudentById" method="post">
-            <input id="stId001" type="text" name="stId" value="1">
-            <input id="stName001" type="text" name="stName" value="1">
-            <input id="stGender001" type="text" name="stGender" value="1">
-            <input id="stGrade001" type="text" name="stGrade" value="1">
-            <input id="stClass001" type="text" name="stClass" value="1">
+            学生&ensp;I&ensp;D：<input id="stId001" type="text" name="stId"><br>
+            学生姓名：<input id="stName001" type="text" name="stName"><br>
+            学生性别：<input id="stGender001" type="text" name="stGender"><br>
+            学生年级：<input id="stGrade001" type="text" name="stGrade"><br>
+            学生班级：<input id="stClass001" type="text" name="stClass"><br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
             <input id="update01" type="submit" value="更新学生">
         </form>
         <a href="index.html">回到首页</a>
@@ -157,6 +158,7 @@
                 $.post({
                     url: "/updateStudentById",
                     data: {},
+                    dataType: "json",
                     success: function (data) {
                         console.log(data);
                         // 信息核对成功
@@ -173,7 +175,10 @@
                                     "<td>" + data[i].stGender + "</td>" +
                                     "<td>" + data[i].stGrade + "</td>" +
                                     "<td>" + data[i].stClass + "</td>" +
-                                    "<td>" + "更新学生" + "</td>" +
+                                    "<td >" + "<input class= 'btn' type=button value='更新学生' " +
+                                    "onclick='updateStudent()' />" + "</td>" +
+                                    "<td >" + "<input class= 'btn' type=button value='删除学生' " +
+                                    "onclick='deleteOne()' />" + "</td>" +
                                     "</tr>";
                             }
                         }
