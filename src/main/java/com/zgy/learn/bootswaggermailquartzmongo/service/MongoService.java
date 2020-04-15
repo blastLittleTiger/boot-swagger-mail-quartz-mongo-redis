@@ -31,7 +31,9 @@ public class MongoService {
 
     }
 
-    public void insert() {
+    // 插入学生
+    public Student insert(Student student) {
+        return mongoTemplate.insert(student, "student");
 
     }
 

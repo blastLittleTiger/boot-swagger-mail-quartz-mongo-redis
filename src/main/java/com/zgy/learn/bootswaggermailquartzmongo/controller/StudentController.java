@@ -48,15 +48,25 @@ public class StudentController {
     @ApiImplicitParam(name = "student", dataTypeClass = Student.class, required = true)
     @PostMapping("addstudent")
     @ResponseBody
-    public String addStudent(Student student) {
+    public String addStudent(Student student) throws JsonProcessingException {
         if (null == student) {
-            return "student info is not correct!";
+            return "学生信息有误！";
+        } else {
+            List<Student> list = mongoService.queryAll();
+            if (list.size() <= 0) {
+                return "没有学生信息";
+            } else {
+                List<Integer> stIds = new ArrayList<>();
+                for (Student st: list){
+                    stIds.add(st.getStId());
+                }
+                if (stIds.contains(student.getStId())){
+                    return "学生Id已经存在！";
+                }else{
+                    return JSONUtils.getJsonFromObject(mongoService.insert(student));
+                }
+            }
         }
-        if (ids.contains(student.getStId())) {
-            return "student id is already exist!";
-        }
-        students.add(student);
-        return "add the student okay!";
     }
 
     // 删除一个学生
