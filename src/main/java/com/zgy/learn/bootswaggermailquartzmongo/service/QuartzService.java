@@ -17,10 +17,10 @@ public class QuartzService {
     private String timeFormatter = "yyyy-MM-dd HH:mm:ss";
 
     @Scheduled(cron = "0 * * * * ?") //每一分钟都打印一次时间
-    public void printTime() {
+    public String getTime() {
         LocalDateTime localDateTime = LocalDateTime.now();
         String nowTime = localDateTime.format(DateTimeFormatter.ofPattern(timeFormatter)).toString();
-        System.out.println("nowTime: " + nowTime);
+        return nowTime;
 
     }
 }
