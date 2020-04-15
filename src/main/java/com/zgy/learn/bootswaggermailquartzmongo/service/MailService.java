@@ -32,6 +32,9 @@ public class MailService {
         sender.send(message);
     }
 
+    /**
+     * 带有附件的邮件发送
+     */
     public void sendMailWithAppendix(){
     }
 }

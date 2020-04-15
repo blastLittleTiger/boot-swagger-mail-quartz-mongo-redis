@@ -27,4 +27,10 @@ public class QuartzController {
     public String getNowTime() throws JsonProcessingException {
         return JSONUtils.getJsonFromObject(quartzService.getTime());
     }
+
+    @RequestMapping(value = "/sendMailFixed", method = RequestMethod.GET)
+    @ResponseBody
+    public String sendMailFixed() throws JsonProcessingException {
+        return JSONUtils.getJsonFromObject(quartzService.sendMailFixedTime());
+    }
 }
