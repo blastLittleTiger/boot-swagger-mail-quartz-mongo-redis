@@ -65,8 +65,9 @@ public class MongoService {
         Query query = new Query();
         query.addCriteria(Criteria.where("stId").is(student.getStId()));
         Update update = new Update();
-        update.set(student.getStId().toString(), student);
-        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, Student.class);
+        // 主键不是stId，而是_id
+        update.set(String.valueOf(student.getStId()), student);
+        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, Student.class, "student");
         long modifiedCount = updateResult.getModifiedCount();
         if (modifiedCount ==1){
             return 1L;
