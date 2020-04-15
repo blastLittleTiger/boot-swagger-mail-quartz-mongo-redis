@@ -66,12 +66,14 @@ public class MongoService {
         query.addCriteria(Criteria.where("stId").is(student.getStId()));
         Update update = new Update();
         // 主键不是stId，而是_id
-        update.set(String.valueOf(student.getStId()), student);
+        // 每一个字段，都要去按照key来更新
+        update.set("stName", student.getStName()).set("stGender", student.getStGender()).
+                set("stGrade",student.getStGrade()).set("stClass",student.getStClass());
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, Student.class, "student");
         long modifiedCount = updateResult.getModifiedCount();
-        if (modifiedCount ==1){
+        if (modifiedCount == 1) {
             return 1L;
-        }else{
+        } else {
             return -1L;
         }
 
