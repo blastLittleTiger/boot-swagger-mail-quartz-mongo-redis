@@ -2,12 +2,10 @@ package com.zgy.learn.bootswaggermailquartzmongo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
-import com.zgy.learn.bootswaggermailquartzmongo.service.MongoService;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +22,6 @@ import java.util.List;
 public class StudentStaticController {
     private static List<Student> students = new ArrayList<>();
     private static List<Integer> ids = new ArrayList<>();
-    @Autowired
-    MongoService mongoService;
 
     static {
         students.add(new Student(1, "张三", "男", "1年级", "2班"));
