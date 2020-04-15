@@ -32,11 +32,18 @@
                 window.alert('111');
                 console.log("111");
             }
+
+            // 给编号赋值id, 每个id都不同的
+            $(".tdContent").each(function(){
+                $(this).attr('id',"tdContent"+$(this).index());
+                $(this).text("tdContent"+$(this).index())
+            })
+
             function deleteOne() {
                 $.ajax({
                         url: "/deletestudentbyid",
                         type: "POST", //请求的方法
-                        data:{"stId":1},
+                        data:{"stId": $("#tdContent"+$(this).index()).val()},//获取对应的组件上的值,转换成int
                         dataType: "json",
                         success: function (data) {
                             console.log(data);
@@ -46,12 +53,12 @@
                             if (null != data) {
                                 for (var i = 0; i < data.length; i++) {
                                     myHtmlContent += "<tr>" +
-                                        "<td>" + data[i].stId + "</td>" +
-                                        "<td>" + data[i].stName + "</td>" +
-                                        "<td>" + data[i].stGender + "</td>" +
-                                        "<td>" + data[i].stGrade + "</td>" +
-                                        "<td>" + data[i].stClass + "</td>" +
-                                        "<td>" + "<input id ='www' type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
+                                        "<td class ='tdContent'>" + data[i].stId + "</td>" +
+                                        "<td class ='tdContent'>" + data[i].stName + "</td>" +
+                                        "<td class ='tdContent'>" + data[i].stGender + "</td>" +
+                                        "<td class ='tdContent'>" + data[i].stGrade + "</td>" +
+                                        "<td class ='tdContent'>" + data[i].stClass + "</td>" +
+                                        "<td >" + "<input type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
                                         "</tr>";
                                 }
                             }
@@ -97,37 +104,6 @@
         <!-- test -->
         <p>Hello world!</p>
         <input type="button" value="Hello test!" onclick="f()"/>
-        <script type="text/javascript">
-            function updateStudent() {
-                $.post({
-                    url: "/updateStudentById",
-                    data: {},
-                    success: function (data) {
-                        console.log(data);
-                        // 信息核对成功
-                        if (data.toString() != '没有这个学生的信息' &&
-                            data.toString() != 'student info is error!') {
-                            var myHtmlContent = "";
-                            for (var i = 0; i < data.length; i++) {
-                                console.log(data[i].stId);
-                                console.log(data[i].stGender);
-
-                                myHtmlContent += "<tr>" +
-                                    "<td>" + data[i].stId + "</td>" +
-                                    "<td>" + data[i].stName + "</td>" +
-                                    "<td>" + data[i].stGender + "</td>" +
-                                    "<td>" + data[i].stGrade + "</td>" +
-                                    "<td>" + data[i].stClass + "</td>" +
-                                    "<td>" + "删除" + "</td>" +
-                                    "</tr>";
-                            }
-                        }
-                        $('#students').html(myHtmlContent)
-                    }
-                })
-            }
-
-        </script>
         <div>
             <table id="allStudent" style="margin: 20px; border: deepskyblue;
             border-width: thick; border-style: wave; border-width: 1px">
@@ -143,7 +119,23 @@
             </table>
             <input type="submit" value="获取学生信息" onclick="ss()">
         </div>
+        <br>
 
 
+        <!--  在标签和id那块有问题，暂时就使用单纯的删除几个就行了-->
+        <!-- 这个是通过后台的方式去删除，然后完成删除这个动作，也能达到效果的，这是使用表单提交的方式-->
+        <form action="/deletestudentbyid" method="post">
+            <input id="d001" type="text" name="stId" value="1">
+            <input id="delete01" type="submit" value="删除1号学生">
+        </form>
+        <form action="/deletestudentbyid" method="post">
+            <input id="d002" type="text" name="stId" value="2">
+            <input id="delete02" type="submit" value="删除1号学生">
+        </form>
+        <form action="/deletestudentbyid" method="post">
+            <input id="d003" type="text" name="stId" value="3">
+            <input id="delete04" type="submit" value="删除1号学生">
+        </form>
+        <a href="index.html">回到首页</a>
     </body>
 </html>
