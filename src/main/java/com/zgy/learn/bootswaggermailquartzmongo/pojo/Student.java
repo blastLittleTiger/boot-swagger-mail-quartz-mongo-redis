@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Student {
     @ApiModelProperty(value = "学生id", notes = "学生id")
-    private int stId;
+    private Integer stId;
     @ApiModelProperty(value = "学生姓名", notes = "学生姓名")
     private String stName;
     @ApiModelProperty(value = "学生性别", notes = "学生性别")

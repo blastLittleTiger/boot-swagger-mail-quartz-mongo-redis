@@ -26,6 +26,7 @@ public class StudentController {
     @Autowired
     MongoService mongoService;
 
+    // 按照所有的学生
     @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
     @ApiImplicitParam(name = "")
     @ResponseBody
@@ -35,11 +36,15 @@ public class StudentController {
 
     }
 
+    // 按照ID查询学生
     @ApiOperation(value = "按照stId查询学生的信息", notes = "按照id查询学生", httpMethod = "GET")
     @ApiImplicitParam(name = "stId", dataType = "Integer", required = true)
     @ResponseBody
     @GetMapping("getstudentbyid")
     public String getStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
+        if (null == stId ) {
+            return "学生信息有误！";
+        }
         return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
     }
 
@@ -49,7 +54,7 @@ public class StudentController {
     @PostMapping("addstudent")
     @ResponseBody
     public String addStudent(Student student) throws JsonProcessingException {
-        if (null == student) {
+        if (null == student || null == student.getStId()) {
             return "学生信息有误！";
         } else {
             List<Student> list = mongoService.queryAll();
@@ -75,6 +80,9 @@ public class StudentController {
     @PostMapping("deletestudentbyid")
     @ResponseBody
     public String deleteStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
+        if (null == stId ) {
+            return "学生信息有误！";
+        }
         long count = mongoService.delete(stId);
         if (count >= 1) {
             return JSONUtils.getJsonFromObject("删除成功！");
