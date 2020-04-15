@@ -39,7 +39,7 @@
                 $(this).text("tdContent"+$(this).index())
             })
 
-            // 和ss()方法是一样的
+            // 删除学生
             function deleteOne() {
                 $.ajax({
                         url: "/deletestudentbyid",
@@ -59,7 +59,10 @@
                                         "<td class ='tdContent'>" + data[i].stGender + "</td>" +
                                         "<td class ='tdContent'>" + data[i].stGrade + "</td>" +
                                         "<td class ='tdContent'>" + data[i].stClass + "</td>" +
-                                        "<td >" + "<input type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
+                                        "<td >" + "<input type=button value='更新学生' " +
+                                        "onclick='updateStudent()' />" + "</td>" +
+                                        "<td >" + "<input type=button value='删除学生' " +
+                                        "onclick='deleteOne()' />" + "</td>" +
                                         "</tr>";
                                 }
                             }
@@ -89,7 +92,10 @@
                                     "<td>" + data[i].stGender + "</td>" +
                                     "<td>" + data[i].stGrade + "</td>" +
                                     "<td>" + data[i].stClass + "</td>" +
-                                    "<td>" + "<input id ='www' type=button value='删除一个学生' onclick='deleteOne()' />" + "</td>" +
+                                    "<td >" + "<input type=button value='更新学生' " +
+                                    "onclick='updateStudent()' />" + "</td>" +
+                                    "<td >" + "<input type=button value='删除学生' " +
+                                    "onclick='deleteOne()' />" + "</td>" +
                                     "</tr>";
                             }
                         }
@@ -114,6 +120,7 @@
                 <th>学生年级</th>
                 <th>学生班级</th>
                 <th id="updateOne">update</th>
+                <th id="deleteOne">delete</th>
                 <tbody id="students">
 
                 </tbody>
@@ -125,22 +132,19 @@
 
         <!--  在标签和id那块有问题，暂时就使用单纯的删除几个就行了-->
         <!-- 这个是通过后台的方式去删除，然后完成删除这个动作，也能达到效果的，这是使用表单提交的方式-->
-        <form action="/deletestudentbyid" method="post">
-            <input id="d001" type="text" name="stId" value="1">
-            <input id="delete01" type="submit" value="删除1号学生">
-        </form>
-        <form action="/deletestudentbyid" method="post">
-            <input id="d002" type="text" name="stId" value="2">
-            <input id="delete02" type="submit" value="删除2号学生">
-        </form>
-        <form action="/deletestudentbyid" method="post">
-            <input id="d003" type="text" name="stId" value="3">
-            <input id="delete04" type="submit" value="删除3号学生">
+        <form action="/updateStudentById" method="post">
+            <input id="stId001" type="text" name="stId" value="1">
+            <input id="stName001" type="text" name="stName" value="1">
+            <input id="stGender001" type="text" name="stGender" value="1">
+            <input id="stGrade001" type="text" name="stGrade" value="1">
+            <input id="stClass001" type="text" name="stClass" value="1">
+            <input id="update01" type="submit" value="更新学生">
         </form>
         <a href="index.html">回到首页</a>
 
         <!-- 通过前端的方式，使用ajax的异步通信的方式，调用后台的方法，然后操作dom，完成删除后局部刷新-->
         <script type="text/javascript">
+            // 更新学生
             function updateStudent() {
                 $.post({
                     url: "/updateStudentById",
@@ -161,7 +165,7 @@
                                     "<td>" + data[i].stGender + "</td>" +
                                     "<td>" + data[i].stGrade + "</td>" +
                                     "<td>" + data[i].stClass + "</td>" +
-                                    "<td>" + "删除" + "</td>" +
+                                    "<td>" + "更新学生" + "</td>" +
                                     "</tr>";
                             }
                         }
