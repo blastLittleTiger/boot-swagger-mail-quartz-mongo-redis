@@ -42,7 +42,7 @@ public class StudentController {
     @ResponseBody
     @GetMapping("getstudentbyid")
     public String getStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
-        if (null == stId ) {
+        if (null == stId) {
             return "学生信息有误！";
         }
         return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
@@ -62,12 +62,12 @@ public class StudentController {
                 return "没有学生信息";
             } else {
                 List<Integer> stIds = new ArrayList<>();
-                for (Student st: list){
+                for (Student st : list) {
                     stIds.add(st.getStId());
                 }
-                if (stIds.contains(student.getStId())){
+                if (stIds.contains(student.getStId())) {
                     return "学生Id已经存在！";
-                }else{
+                } else {
                     return JSONUtils.getJsonFromObject(mongoService.insert(student));
                 }
             }
@@ -80,7 +80,7 @@ public class StudentController {
     @PostMapping("deletestudentbyid")
     @ResponseBody
     public String deleteStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
-        if (null == stId ) {
+        if (null == stId) {
             return "学生信息有误！";
         }
         long count = mongoService.delete(stId);
@@ -97,24 +97,17 @@ public class StudentController {
     @ResponseBody
     @RequestMapping("updateStudentById")
     public String updateStudentById(Student student) throws JsonProcessingException {
-        if (student.getStId() <= 0) {
-            return "student info is error!";
+        if (null == student) {
+            return "信息不允许为空！";
+        } else if (student.getStId() == null || null == student.getStName() ||
+                null == student.getStGender() || null == student.getStGrade() ||
+                null == student.getStClass()) {
+            return "学生信息不能为空！";
+        } else if (student.getStId() <= 0) {
+            return "学生信息错误！";
+        } else {
+            return JSONUtils.getJsonFromObject(
+                    mongoService.update(student) == 1L ? "更新成功" : "更新出错");
         }
-        if (null != student) {
-            if (ids.contains(student.getStId())) {
-                for (int i = 0; i < ids.size(); i++) {
-                    if (student.getStId() == students.get(i).getStId()) {
-                        students.get(i).setStName(student.getStName());
-                        students.get(i).setStGender(student.getStGender());
-                        students.get(i).setStGrade(student.getStGrade());
-                        students.get(i).setStClass(student.getStClass());
-                        return JSONUtils.getJsonFromObject(students);
-                    }
-                }
-            } else {
-                return "没有这个学生的信息！";
-            }
-        }
-        return "student info is error!";
     }
 }
