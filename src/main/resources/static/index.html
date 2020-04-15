@@ -4,24 +4,57 @@
         <meta charset="UTF-8">
         <title>Hello boot</title>
         <style>
-            p{
+            p {
                 font-family: "微软雅黑 Light";
                 font-size: 30px;
                 margin-left: 2px;
                 color: coral;
             }
-            a:active{
+
+            a:active {
                 color: slategray;
             }
-            a:hover{
+
+            a:hover {
                 font-size: 30px;
                 color: deepskyblue;
             }
-
+            #tixing{
+                color: #28abde;
+                font-family: 方正粗黑宋简体;
+                font-size: 20px;
+                border-style: inherit;
+                background: honeydew;
+            }
+            #nowTime{
+                color: coral;
+                font-family: 方正粗黑宋简体;
+                font-size: 24px;
+            }
         </style>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <script>
+            function getNowTime() {
+                $.ajax({
+                    url: "/job/getNowTime",
+                    method: "get",
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        var htmlTime = data;
+                        console.log(htmlTime)
+                        // $('#nowTime').html(htmlTime)
+                        document.getElementById("nowTime").innerText = htmlTime;
+                    }
+                })
+            }
+        </script>
     </head>
     <body>
         <p>这个项目是为了整合springboot，swagger，javamail, quartz, mongo的使用的demo</p>
+        <button id="tixing" onclick="getNowTime()">点击此行，每分钟都会更新时间:</button>
+        <span id="nowTime">nowtime</span><br>
         <a href="swagger-ui.html">点此链接，查看项目的api接口</a>
         <div id="aboutStudent" style="color: green">
             <a href="/allstudent">所有学生</a><br>
@@ -30,6 +63,5 @@
             <a href="deletestudent.html">删除学生</a><br>
             <a href="updatestudent.html">更新学生</a><br>
         </div>
-
     </body>
 </html>
