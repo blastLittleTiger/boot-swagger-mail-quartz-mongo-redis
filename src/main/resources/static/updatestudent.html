@@ -39,6 +39,7 @@
                 $(this).text("tdContent"+$(this).index())
             })
 
+            // 和ss()方法是一样的
             function deleteOne() {
                 $.ajax({
                         url: "/deletestudentbyid",
@@ -137,5 +138,37 @@
             <input id="delete04" type="submit" value="删除1号学生">
         </form>
         <a href="index.html">回到首页</a>
+
+        <!-- 通过前端的方式，使用ajax的异步通信的方式，调用后台的方法，然后操作dom，完成删除后局部刷新-->
+        <script type="text/javascript">
+            function updateStudent() {
+                $.post({
+                    url: "/updateStudentById",
+                    data: {},
+                    success: function (data) {
+                        console.log(data);
+                        // 信息核对成功
+                        if (data.toString() != '没有这个学生的信息' &&
+                            data.toString() != 'student info is error!') {
+                            var myHtmlContent = "";
+                            for (var i = 0; i < data.length; i++) {
+                                console.log(data[i].stId);
+                                console.log(data[i].stGender);
+
+                                myHtmlContent += "<tr>" +
+                                    "<td>" + data[i].stId + "</td>" +
+                                    "<td>" + data[i].stName + "</td>" +
+                                    "<td>" + data[i].stGender + "</td>" +
+                                    "<td>" + data[i].stGrade + "</td>" +
+                                    "<td>" + data[i].stClass + "</td>" +
+                                    "<td>" + "删除" + "</td>" +
+                                    "</tr>";
+                            }
+                        }
+                        $('#students').html(myHtmlContent)
+                    }
+                })
+            }
+        </script>
     </body>
 </html>
