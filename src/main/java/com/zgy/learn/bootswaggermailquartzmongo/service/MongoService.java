@@ -1,5 +1,6 @@
 package com.zgy.learn.bootswaggermailquartzmongo.service;
 
+import com.mongodb.client.result.DeleteResult;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,7 +22,7 @@ public class MongoService {
 
     // 按照ID查询
     public Student queryById(Integer stId) {
-        if (stId <=0 || stId==null){
+        if (stId <= 0 || stId == null) {
             throw new RuntimeException("stId有异常！");
         }
         Query query = new Query();
@@ -34,7 +35,19 @@ public class MongoService {
 
     }
 
-    public void delete() {
+    // 按照ID删除
+    public Long delete(Integer stId) {
+        if (stId <= 0 || stId == null) {
+            throw new RuntimeException("stId有异常！");
+        }
+        Query query = new Query();
+        query.addCriteria(Criteria.where("stId").is(stId));
+        DeleteResult result = mongoTemplate.remove(query, Student.class);
+        if (result.getDeletedCount() >= 1) {
+            return result.getDeletedCount();
+        } else {
+            return -1L;
+        }
     }
 
     public void update() {

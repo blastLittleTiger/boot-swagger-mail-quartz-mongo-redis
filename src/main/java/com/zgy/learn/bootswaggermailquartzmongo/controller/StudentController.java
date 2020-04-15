@@ -26,21 +26,6 @@ public class StudentController {
     @Autowired
     MongoService mongoService;
 
-    static {
-        students.add(new Student(1, "张三", "男", "1年级", "2班"));
-        students.add(new Student(2, "李小香", "女", "2年级", "4班"));
-        students.add(new Student(3, "王大锤", "男", "3年级", "4班"));
-        students.add(new Student(4, "Jason", "男", "1年级", "2班"));
-        students.add(new Student(5, "May", "女", "5年级", "1班"));
-        students.add(new Student(6, "zou !", "女", "3年级", "3班"));
-        ids.add(1);
-        ids.add(2);
-        ids.add(3);
-        ids.add(4);
-        ids.add(5);
-        ids.add(6);
-    }
-
     @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
     @ApiImplicitParam(name = "")
     @ResponseBody
@@ -55,19 +40,7 @@ public class StudentController {
     @ResponseBody
     @GetMapping("getstudentbyid")
     public String getStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
-        Student st = new Student();
-        if (null == stId || stId < 0) {
-            return "id is not correct!";
-        } else if (ids.contains(stId)) {
-            for (int i = 0; i < ids.size(); i++) {
-                if (students.get(i).getStId() == stId) {
-                    st = students.get(i);
-                }
-            }
-        } else {
-            return "there isn't have a student use this id!";
-        }
-        return JSONUtils.getJsonFromObject(st);
+        return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
     }
 
     // 添加一个新的学生
@@ -92,20 +65,11 @@ public class StudentController {
     @PostMapping("deletestudentbyid")
     @ResponseBody
     public String deleteStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
-        if (null == stId || stId <= 0) {
-            return "id is not correct!";
+        long count = mongoService.delete(stId);
+        if (count >= 1) {
+            return JSONUtils.getJsonFromObject("删除成功！");
         }
-        if (ids.contains(stId)) {
-            // 集合从0开始计算，但是我们的id从1开始计算，获取的时候，遍历集合，学生的id和集合的id无关了
-            for (int i = 0; i < ids.size(); i++) {
-                if (students.get(i).getStId() == stId) {
-                    students.remove(students.get(i));
-                    // 找到一个就跳出来
-                    return JSONUtils.getJsonFromObject(students);
-                }
-            }
-        }
-        return "student is not exists!";
+        return JSONUtils.getJsonFromObject("学生不存在！");
 
     }
 
