@@ -27,7 +27,7 @@
                 background: honeydew;
             }
             #nowTime{
-                color: coral;
+                color: #555dff;
                 font-family: 方正粗黑宋简体;
                 font-size: 24px;
             }
@@ -44,8 +44,8 @@
                     success: function (data) {
                         var htmlTime = data;
                         console.log(htmlTime)
-                        // $('#nowTime').html(htmlTime)
-                        document.getElementById("nowTime").innerText = htmlTime;
+                        $('#nowTime').html(htmlTime)
+                        //document.getElementById("nowTime").innerText = htmlTime;
                     }
                 })
             }
