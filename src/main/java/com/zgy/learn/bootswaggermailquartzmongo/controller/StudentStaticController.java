@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(value = "学生Controller", tags = "学生管理的接口")
+@Api(value = "学生Controller, 使用的是静态数据", tags = "学生管理的接口，静态数据")
 @Controller
 @RequestMapping("staticdata")
 public class StudentStaticController {
