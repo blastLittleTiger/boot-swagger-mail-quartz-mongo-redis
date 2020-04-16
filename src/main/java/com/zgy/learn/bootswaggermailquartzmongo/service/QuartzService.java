@@ -1,5 +1,7 @@
 package com.zgy.learn.bootswaggermailquartzmongo.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Service
 public class QuartzService {
+    Logger log = LoggerFactory.getLogger(QuartzService.class);
     private String timeFormatter = "yyyy-MM-dd HH:mm:ss";
     @Autowired
     MailService mailService;
@@ -23,6 +26,7 @@ public class QuartzService {
     public String getTime() {
         LocalDateTime localDateTime = LocalDateTime.now();
         String nowTime = localDateTime.format(DateTimeFormatter.ofPattern(timeFormatter)).toString();
+        log.info("print now time : {}", nowTime);
         return nowTime;
 
     }
@@ -33,8 +37,13 @@ public class QuartzService {
         String to = "renjiaxin@126.com";
         String subject = "ni好";
         String content = "11111";
-
-        mailService.sendMailWithoutAppendix(to, subject, content);
-        return "发送成功!";
+        try{
+            mailService.sendMailWithoutAppendix(to, subject, content);
+            log.info("邮件发送成功！");
+            return "发送成功!";
+        }catch (Exception e){
+            log.error("发送失败！错误信息 : {}" + e.getMessage());
+            return "邮件发送失败!";
+        }
     }
 }
