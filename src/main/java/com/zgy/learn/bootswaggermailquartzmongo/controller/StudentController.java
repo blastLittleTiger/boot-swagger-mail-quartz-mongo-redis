@@ -7,6 +7,7 @@ import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Api(value = "学生Controller", tags = "学生管理的接口")
 @Controller
 public class StudentController {
     private static List<Student> students = new ArrayList<>();
     private static List<Integer> ids = new ArrayList<>();
-    Logger log = LoggerFactory.getLogger(StudentController.class);
+    //Logger log = LoggerFactory.getLogger(StudentController.class); // @Slf4j作用相同
     @Autowired
     MongoService mongoService;
 
