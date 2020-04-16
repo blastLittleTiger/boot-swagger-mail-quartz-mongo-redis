@@ -3,6 +3,7 @@ package com.zgy.learn.bootswaggermailquartzmongo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zgy.learn.bootswaggermailquartzmongo.service.QuartzService;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Modified by:
  */
 
+@Slf4j
 @Controller
 @RequestMapping("/job")
 public class QuartzController {
-    Logger log = LoggerFactory.getLogger(QuartzController.class);
     @Autowired
     QuartzService quartzService;
 
