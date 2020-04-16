@@ -37,13 +37,8 @@ public class QuartzService {
         String to = "renjiaxin@126.com";
         String subject = "ni好";
         String content = "11111";
-        try{
-            mailService.sendMailWithoutAppendix(to, subject, content);
-            log.info("邮件发送成功！");
-            return "发送成功!";
-        }catch (Exception e){
-            log.error("发送失败！错误信息 : {}" + e.getMessage());
-            return "邮件发送失败!";
-        }
+        mailService.sendMailWithoutAppendix(to, subject, content);
+        log.info("邮件发送成功！{}" + LocalDateTime.now().toString());
+        return "发送成功!";
     }
 }
