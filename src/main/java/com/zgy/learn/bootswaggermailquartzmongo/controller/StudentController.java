@@ -7,6 +7,8 @@ import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import java.util.List;
 public class StudentController {
     private static List<Student> students = new ArrayList<>();
     private static List<Integer> ids = new ArrayList<>();
+    Logger log = LoggerFactory.getLogger(StudentController.class);
     @Autowired
     MongoService mongoService;
 
@@ -43,6 +46,7 @@ public class StudentController {
     @GetMapping("getstudentbyid")
     public String getStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
         if (null == stId) {
+            log.error("学生信息有误！{}", stId);
             return "学生信息有误！";
         }
         return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
@@ -59,6 +63,7 @@ public class StudentController {
         } else {
             List<Student> list = mongoService.queryAll();
             if (list.size() <= 0) {
+                log.error("没有学生信息！");
                 return "没有学生信息";
             } else {
                 List<Integer> stIds = new ArrayList<>();
@@ -66,6 +71,7 @@ public class StudentController {
                     stIds.add(st.getStId());
                 }
                 if (stIds.contains(student.getStId())) {
+                    log.warn("学生Id已经存在！{}", student.getStId());
                     return "学生Id已经存在！";
                 } else {
                     return JSONUtils.getJsonFromObject(mongoService.insert(student));
@@ -81,10 +87,12 @@ public class StudentController {
     @ResponseBody
     public String deleteStudentById(@RequestParam("stId") Integer stId) throws JsonProcessingException {
         if (null == stId) {
+            log.error("学生信息有误！");
             return "学生信息有误！";
         }
         long count = mongoService.delete(stId);
         if (count >= 1) {
+            log.info("删除成功！{}",stId);
             return JSONUtils.getJsonFromObject("删除成功！");
         }
         return JSONUtils.getJsonFromObject("学生不存在！");
@@ -98,12 +106,15 @@ public class StudentController {
     @RequestMapping("updateStudentById")
     public String updateStudentById(Student student) throws JsonProcessingException {
         if (null == student) {
-            return "信息不允许为空！";
+            log.warn("学生信息不允许为空！");
+            return "学生信息不允许为空！";
         } else if (student.getStId() == null || null == student.getStName() ||
                 null == student.getStGender() || null == student.getStGrade() ||
                 null == student.getStClass()) {
+            log.warn("学生信息不能为空！");
             return "学生信息不能为空！";
         } else if (student.getStId() <= 0) {
+            log.warn("学生信息错误！");
             return "学生信息错误！";
         } else {
             return JSONUtils.getJsonFromObject(
