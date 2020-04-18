@@ -33,12 +33,14 @@ public class QuartzService {
 
     }
 
-    @Scheduled(cron = "0 */3 * * * ?") //每3分钟发送一份邮件
+    // 秒，分，小时，日，月，星期，年 //一共是7位
+    @Scheduled(cron = "0 0 12 15 2 * *?") //修改成每年2月14日发送一份邮件，祝福生日快乐
+    //@Scheduled(cron = "0 */3 * * * ?") //每3分钟发送一份邮件
     // @Scheduled(cron = "0 * * * * ?") //每一分钟都打印一次时间
     public String sendMailFixedTime() {
         String to = "renjiaxin@126.com";
-        String subject = "ni好";
-        String content = "11111";
+        String subject = "你好";
+        String content = "最光阴你好，生日快乐！";
         mailService.sendMailWithoutAppendix(to, subject, content);
         log.info("邮件发送成功！{}" + LocalDateTime.now().toString());
         return "发送成功!";
