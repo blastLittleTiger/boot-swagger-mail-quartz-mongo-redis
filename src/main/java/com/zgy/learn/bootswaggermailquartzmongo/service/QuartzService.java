@@ -33,8 +33,8 @@ public class QuartzService {
 
     }
 
-    // 秒，分，小时，日，月，星期，年 //一共是7位
-    @Scheduled(cron = "0 0 12 15 2 * *?") //修改成每年2月14日发送一份邮件，祝福生日快乐
+    // 秒，分，小时，日，月，星期，年 //一共是7位，星期一般不写
+    @Scheduled(cron = "0 0 12 15 2 ?") //修改成每年2月14日发送一份邮件，祝福生日快乐
     //@Scheduled(cron = "0 */3 * * * ?") //每3分钟发送一份邮件
     // @Scheduled(cron = "0 * * * * ?") //每一分钟都打印一次时间
     public String sendMailFixedTime() {
