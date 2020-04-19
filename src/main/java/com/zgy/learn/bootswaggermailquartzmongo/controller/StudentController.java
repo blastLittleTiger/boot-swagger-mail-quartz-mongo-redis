@@ -3,8 +3,8 @@ package com.zgy.learn.bootswaggermailquartzmongo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import com.zgy.learn.bootswaggermailquartzmongo.service.MongoService;
+import com.zgy.learn.bootswaggermailquartzmongo.service.RedisService;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
-import com.zgy.learn.bootswaggermailquartzmongo.util.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class StudentController {
     MongoService mongoService;
 
     @Autowired
-    private RedisUtils redisUtils = new RedisUtils();
+    private RedisService redisService;
 
     // 按照所有的学生
     @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
@@ -55,7 +55,7 @@ public class StudentController {
         }
         String result = "";
         // 先从缓存之中查
-        Object obj = redisUtils.get(String.valueOf(stId));
+        Object obj = redisService.get(String.valueOf(stId));
         if (null == obj) {
             log.info("缓存之中没有学生的数据！{}", stId);
         } else {
@@ -91,7 +91,7 @@ public class StudentController {
                     // 先把数据写入到数据库
                     String str = JSONUtils.getJsonFromObject(mongoService.insert(student));
                     // 然后把数据写入到缓存
-                    redisUtils.set(String.valueOf(student.getStId()), student, 1000);
+                    redisService.set(String.valueOf(student.getStId()), student, 1000);
                     return str;
                 }
             }
