@@ -2,7 +2,9 @@ package com.zgy.learn.bootswaggermailquartzmongo.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JSONUtils {
     private static ObjectMapper mapper = new ObjectMapper();
 
