@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtils {
 
-    //    @Qualifier(value = "myStringRedisTemplate")
+    //@Qualifier(value = "myStringRedisTemplate")
     @Autowired(required = false)
     RedisTemplate<String, Object> redisTemplate;
 
