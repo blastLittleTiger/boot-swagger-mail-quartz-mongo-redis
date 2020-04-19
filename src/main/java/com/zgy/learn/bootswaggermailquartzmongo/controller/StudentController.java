@@ -35,7 +35,6 @@ public class StudentController {
 
     // 按照所有的学生
     @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
-    @ApiImplicitParam(name = "")
     @ResponseBody
     @GetMapping("allstudent")
     public String getAllStudents() throws JsonProcessingException {
@@ -56,11 +55,11 @@ public class StudentController {
         /*单个key查询的过程*/
         // 先从缓存之中查
         // 1. 判断缓存之中是否有这么一个key-value对
-        if (redisService.hasKey(String.valueOf(stId))){
+        if (redisService.hasKey(String.valueOf(stId))) {
             log.info("从redis缓存之中查询学生的数据！{}", stId);
-            Student st = (Student)redisService.get(String.valueOf(stId));
+            Student st = (Student) redisService.get(String.valueOf(stId));
             return JSONUtils.getJsonFromObject(st);
-        }else{
+        } else {
             // 2.如果没有，再从数据库之中查
             log.info("====>从mongo数据库之中查找学生的数据！{}", stId);
             return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
@@ -91,8 +90,10 @@ public class StudentController {
                 } else {
                     // 先把数据写入到数据库
                     String str = JSONUtils.getJsonFromObject(mongoService.insert(student));
+                    log.info("mongo之中成功插入了学号为 {}的学生!", student.getStId());
                     // 然后把数据写入到缓存
                     redisService.set(String.valueOf(student.getStId()), student, 1000);
+                    log.info("redis之中成功插入了学号为 {}的学生!", student.getStId());
                     return str;
                 }
             }
@@ -109,13 +110,17 @@ public class StudentController {
             log.error("学生信息有误！");
             return "学生信息有误！";
         }
+        // 先从缓存之中删除，然后从数据库之中删除
+        if (redisService.hasKey(String.valueOf("stId"))) {
+            redisService.del(String.valueOf("stId"));
+            log.info("redis之中成功删除了学号为 {}的学生!", stId);
+        }
         long count = mongoService.delete(stId);
         if (count >= 1) {
-            log.info("删除成功！{}", stId);
+            log.info("===>mongo之中成功删除了学号为 {}的学生!", stId);
             return JSONUtils.getJsonFromObject("删除成功！");
         }
         return JSONUtils.getJsonFromObject("学生不存在！");
-
     }
 
     // 更新一个学生
@@ -136,8 +141,22 @@ public class StudentController {
             log.warn("学生信息错误！");
             return "学生信息错误！";
         } else {
-            return JSONUtils.getJsonFromObject(
-                    mongoService.update(student) == 1L ? "更新成功" : "更新出错");
+            // 更新，先更新数据库【先删除缓存，然后去更新数据库】，然后更新缓存[先删除，然后插入？ 直接更新缓存？]
+            // 方案===》先从缓存之中删除[如果有的话]，然后更新数据库，最后写入到缓存之中
+            if (redisService.hasKey(String.valueOf(student.getStId()))) {
+                redisService.del(String.valueOf(student.getStId()));
+                log.info("数据将要更新】】】===redis之中成功删除了学号为 {}的学生!", student.getStId());
+            }
+            Long result = mongoService.update(student);
+            if (result == 1L) {
+                log.info("mongo之中学号为{}的学生信息更新成功!", student.getStId());
+                redisService.set(String.valueOf(student.getStId()), student, 1000);
+                log.info("redis之中成功更新了学号为 {}的学生!", student.getStId());
+                return "更新成功";
+            } else {
+                return "更新出错";
+            }
+            // return JSONUtils.getJsonFromObject(mongoService.update(student) == 1L ? "更新成功" : "更新出错");
         }
     }
 }
