@@ -1,8 +1,8 @@
-package com.zgy.learn.bootswaggermailquartzmongo.util;
+package com.zgy.learn.bootswaggermailquartzmongo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -12,13 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: renjiaxin
- * @Despcription:
+ * @Despcription: Redis的缓存服务
  * @Date: Created in 2020/4/19 15:19
  * @Modified by:
  */
-@Component
-public class RedisUtils {
-
+@Service
+public class RedisService {
     //@Qualifier(value = "myStringRedisTemplate")
     @Autowired(required = false)
     RedisTemplate<String, Object> redisTemplate;
