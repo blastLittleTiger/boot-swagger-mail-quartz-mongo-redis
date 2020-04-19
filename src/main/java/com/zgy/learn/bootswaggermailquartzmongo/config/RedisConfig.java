@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -27,9 +28,10 @@ import java.time.Duration;
  * @Date: Created in 2020/4/19 12:30
  * @Modified by: https://segmentfault.com/a/1190000020314044, https://blog.csdn.net/weixin_38312502/article/details/80916222
  */
-//public class RedisConfig extends CachingConfigurerSupport {
 @Configuration
-public class RedisConfig{
+public class RedisConfig extends CachingConfigurerSupport {
+//@Configuration
+//public class RedisConfig{
     @Value("${spring.redis.host}")
     private String host;
     @Value("${spring.redis.port}")
@@ -39,7 +41,8 @@ public class RedisConfig{
     @Value("${spring.cache.redis.time-to-live}")
     private Duration timeToLive = Duration.ZERO;
 
-    @Bean(name = "myStringRedisTemplate")
+    //@Bean(name = "myStringRedisTemplate")
+    @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);

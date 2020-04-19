@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     //@Qualifier(value = "myStringRedisTemplate")
     @Autowired(required = false)
-    RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate; // 应该是根据类型，推断出来的
 
     /**
      * 指定缓存失效时间
