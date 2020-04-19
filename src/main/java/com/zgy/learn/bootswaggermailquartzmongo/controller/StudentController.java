@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
 import com.zgy.learn.bootswaggermailquartzmongo.service.MongoService;
 import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
+import com.zgy.learn.bootswaggermailquartzmongo.util.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +30,9 @@ public class StudentController {
     @Autowired
     MongoService mongoService;
 
+    @Autowired
+    private RedisUtils redisUtils = new RedisUtils();
+
     // 按照所有的学生
     @ApiOperation(value = "查询所有的学生", notes = "查询所有的学生", httpMethod = "GET")
     @ApiImplicitParam(name = "")
@@ -51,7 +53,17 @@ public class StudentController {
             log.error("学生信息有误！{}", stId);
             return "学生信息有误！";
         }
-        return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
+        String result = "";
+        // 先从缓存之中查
+        Object obj = redisUtils.get(String.valueOf(stId));
+        if (null == obj) {
+            log.info("缓存之中没有学生的数据！{}", stId);
+        } else {
+            // 如果没有，再从数据库之中查
+            result = JSONUtils.getJsonFromObject(mongoService.queryById(stId));
+            log.info("====>从mongo数据库之中查找学生的数据！{}", stId);
+        }
+        return result;
     }
 
     // 添加一个新的学生
@@ -76,7 +88,11 @@ public class StudentController {
                     log.warn("学生Id已经存在！{}", student.getStId());
                     return "学生Id已经存在！";
                 } else {
-                    return JSONUtils.getJsonFromObject(mongoService.insert(student));
+                    // 先把数据写入到数据库
+                    String str = JSONUtils.getJsonFromObject(mongoService.insert(student));
+                    // 然后把数据写入到缓存
+                    redisUtils.set(String.valueOf(student.getStId()), student, 1000);
+                    return str;
                 }
             }
         }
@@ -94,7 +110,7 @@ public class StudentController {
         }
         long count = mongoService.delete(stId);
         if (count >= 1) {
-            log.info("删除成功！{}",stId);
+            log.info("删除成功！{}", stId);
             return JSONUtils.getJsonFromObject("删除成功！");
         }
         return JSONUtils.getJsonFromObject("学生不存在！");
