@@ -53,17 +53,18 @@ public class StudentController {
             log.error("学生信息有误！{}", stId);
             return "学生信息有误！";
         }
-        String result = "";
+        /*单个key查询的过程*/
         // 先从缓存之中查
-        Object obj = redisService.get(String.valueOf(stId));
-        if (null == obj) {
-            log.info("缓存之中没有学生的数据！{}", stId);
-        } else {
-            // 如果没有，再从数据库之中查
-            result = JSONUtils.getJsonFromObject(mongoService.queryById(stId));
+        // 1. 判断缓存之中是否有这么一个key-value对
+        if (redisService.hasKey(String.valueOf(stId))){
+            log.info("从redis缓存之中查询学生的数据！{}", stId);
+            Student st = (Student)redisService.get(String.valueOf(stId));
+            return JSONUtils.getJsonFromObject(st);
+        }else{
+            // 2.如果没有，再从数据库之中查
             log.info("====>从mongo数据库之中查找学生的数据！{}", stId);
+            return JSONUtils.getJsonFromObject(mongoService.queryById(stId));
         }
-        return result;
     }
 
     // 添加一个新的学生
