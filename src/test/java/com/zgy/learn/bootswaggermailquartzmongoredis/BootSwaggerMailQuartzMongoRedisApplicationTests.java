@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo;
+package com.zgy.learn.bootswaggermailquartzmongoredis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
