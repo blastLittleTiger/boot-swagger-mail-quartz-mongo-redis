@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo;
+package com.zgy.learn.bootswaggermailquartzmongoredis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

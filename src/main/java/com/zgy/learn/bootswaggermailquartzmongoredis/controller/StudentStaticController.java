@@ -1,8 +1,8 @@
-package com.zgy.learn.bootswaggermailquartzmongo.controller;
+package com.zgy.learn.bootswaggermailquartzmongoredis.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zgy.learn.bootswaggermailquartzmongo.pojo.Student;
-import com.zgy.learn.bootswaggermailquartzmongo.util.JSONUtils;
+import com.zgy.learn.bootswaggermailquartzmongoredis.pojo.Student;
+import com.zgy.learn.bootswaggermailquartzmongoredis.util.JSONUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

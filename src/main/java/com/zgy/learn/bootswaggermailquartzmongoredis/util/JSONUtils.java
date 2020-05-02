@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo.util;
+package com.zgy.learn.bootswaggermailquartzmongoredis.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

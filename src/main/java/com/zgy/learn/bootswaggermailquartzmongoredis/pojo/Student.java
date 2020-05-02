@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo.pojo;
+package com.zgy.learn.bootswaggermailquartzmongoredis.pojo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

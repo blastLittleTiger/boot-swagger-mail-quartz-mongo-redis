@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo.service;
+package com.zgy.learn.bootswaggermailquartzmongoredis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

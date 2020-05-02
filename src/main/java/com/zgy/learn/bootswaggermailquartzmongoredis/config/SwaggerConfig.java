@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo.config;
+package com.zgy.learn.bootswaggermailquartzmongoredis.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

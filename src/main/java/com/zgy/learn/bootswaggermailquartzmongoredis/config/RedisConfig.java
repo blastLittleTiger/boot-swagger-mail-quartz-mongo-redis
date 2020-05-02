@@ -1,4 +1,4 @@
-package com.zgy.learn.bootswaggermailquartzmongo.config;
+package com.zgy.learn.bootswaggermailquartzmongoredis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

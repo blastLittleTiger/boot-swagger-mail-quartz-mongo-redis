@@ -1,6 +1,6 @@
-package com.zgy.learn.bootswaggermailquartzmongo.controller;
+package com.zgy.learn.bootswaggermailquartzmongoredis.controller;
 
-import com.zgy.learn.bootswaggermailquartzmongo.service.MailService;
+import com.zgy.learn.bootswaggermailquartzmongoredis.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
